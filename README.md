@@ -16,7 +16,7 @@ RUN mkdir /home/programming
 
 The `FROM` command is used to specify the underlying OS that we are going to use to build our image. In this case the image will be built on top of the latest version of linux alpine.
 
-The `RUN` command is used to execute a shell command inside the image created. In this case we are executing a mkdir in order to create a folder called `programming` inside the home directory.
+The `RUN` command is used to execute a shell command inside the image created. In this case we are executing two commands, a mkdir to create a folder called `programming` inside the home directory and anoter command to install `bash` because it's not present in linux alpine.
 
 The directory is created inside the docker image space and not inside the machine where we run the command.
 
@@ -58,3 +58,14 @@ alpine              latest              961769676411        2 months ago        
 
 Once we have an image we can create a container out of it. The command in this case is `docker run`.
 The full command in this case is `docker run -itd --name my_container my_image`, this command will create a container named `my_container` from the image `my_image` previously generated. 
+
+At this point we should have a running docker container called, and if we run the command `docker ps -a` we should get this output:
+
+```
+$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
+55f337aad2bc        my_image            "/bin/sh"           About a minute ago   Up About a minute                       my_container
+```
+
+To understand what we have created we can run the command `docker exec -it my_container bash`. This command open a terminal inside our container. If we run a `ls` we'll see all the folder structure we usually found in a linux environment and if we enter the `/home` folder we can find the `/programming` folder created with the RUN command inside the Dockerfile.
+
